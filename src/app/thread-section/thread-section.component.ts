@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ThreadsService} from "../services/threads.service";
-import {Store} from "@ngrx/store";
-import {ApplicationState} from "../store/application-state";
-import {LoadUserThreadsAction} from "../store/actions";
+import {ThreadsService} from '../services/threads.service';
+import {Store} from '@ngrx/store';
+import {ApplicationState} from '../store/application-state';
+import {LoadUserThreadsAction} from '../store/actions';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
@@ -11,18 +12,18 @@ import {LoadUserThreadsAction} from "../store/actions";
   styleUrls: ['./thread-section.component.css']
 })
 export class ThreadSectionComponent implements OnInit {
-  userName:  string;
+  userName$:  Observable<string>;
 
   constructor(private threadsService: ThreadsService,
               private store: Store<ApplicationState>) {
-    store
+    this.userName$ =
+      store
       .skip(1)
-      .subscribe(
-      state => {
-        this.userName = state.storeData.participants[state.uiState.userId].name;
-        console.log('USER: ' + this.userName);
-      }
-    );
+      .map(this.mapStateToUserName);
+  }
+
+  mapStateToUserName(state: ApplicationState): string {
+    return state.storeData.participants[state.uiState.userId].name;
   }
 
   ngOnInit() {
