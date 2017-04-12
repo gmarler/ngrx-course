@@ -4,6 +4,8 @@ import {Store} from '@ngrx/store';
 import {ApplicationState} from '../store/application-state';
 import {LoadUserThreadsAction} from '../store/actions';
 import {Observable} from 'rxjs/Observable';
+import {Thread} from '../../../shared/model/thread';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -12,7 +14,8 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./thread-section.component.css']
 })
 export class ThreadSectionComponent implements OnInit {
-  userName$:  Observable<string>;
+  userName$:              Observable<string>;
+  unreadMessagesCounter$: Observable<number>;
 
   constructor(private threadsService: ThreadsService,
               private store: Store<ApplicationState>) {
@@ -20,14 +23,27 @@ export class ThreadSectionComponent implements OnInit {
       store
       .skip(1)
       .map(this.mapStateToUserName);
+
+    this.unreadMessagesCounter$ =
+      store
+        .skip(1)
+        .map(this.mapStateToUnreadMessagesCounter);
   }
 
   mapStateToUserName(state: ApplicationState): string {
     return state.storeData.participants[state.uiState.userId].name;
   }
 
-  ngOnInit() {
+  mapStateToUnreadMessagesCounter(state: ApplicationState): number {
+    const currentUserId = state.uiState.userId;
+    return _.values<Thread>(state.storeData.threads)
+      .reduce(
+        (acc, thread) => acc + thread.participants[currentUserId]
+        , 0
+      );
+  }
 
+  ngOnInit() {
         this.threadsService.loadUserThreads()
           .subscribe(
             allUserData => this.store.dispatch(
