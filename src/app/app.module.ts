@@ -19,7 +19,7 @@ function storeReducer(state: ApplicationState = INITIAL_APPLICATION_STATE,
                       action: Action): ApplicationState {
   switch (action.type) {
     case LOAD_USER_THREADS_ACTION:
-      return handleLoadUserThreadsAction(state,action);
+      return handleLoadUserThreadsAction(state, action);
 
     default:
       return state;
