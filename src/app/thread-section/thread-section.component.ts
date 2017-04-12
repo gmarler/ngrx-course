@@ -4,12 +4,11 @@ import {Store} from '@ngrx/store';
 import {ApplicationState} from '../store/application-state';
 import {LoadUserThreadsAction} from '../store/actions';
 import {Observable} from 'rxjs/Observable';
-import {ThreadSummaryVM} from "./thread-summary.vm";
-import {mapStateToUserName} from "./mapStateToUserName";
-import {mapStateToUnreadMessagesCounter} from "./mapStateToUnreadMessagesCounter";
-import {Thread} from "../../../shared/model/thread";
+import {ThreadSummaryVM} from './thread-summary.vm';
+import {mapStateToUserName} from './mapStateToUserName';
+import {mapStateToUnreadMessagesCounter} from './mapStateToUnreadMessagesCounter';
+import {Thread} from '../../../shared/model/thread';
 import * as _ from 'lodash';
-import {dbParticipants} from "../../server/db-data";
 
 @Component({
   selector: 'thread-section',
@@ -39,11 +38,13 @@ export class ThreadSectionComponent implements OnInit {
           const names = _.keys(thread.participants)
             .map(participantId => state.storeData.participants[participantId].name);
           const lastMessageId = _.last(thread.messageIds);
+          const lastMessage   = state.storeData.messages[lastMessageId];
 
           return {
             id:               thread.id,
             participantNames: _.join(names, ','),
-            lastMessageText:  state.storeData.messages[lastMessageId].text
+            lastMessageText:  lastMessage.text,
+            timestamp:        lastMessage.timestamp
           };
         });
       }
