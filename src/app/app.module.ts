@@ -15,7 +15,7 @@ import {ApplicationState, INITIAL_APPLICATION_STATE} from "./store/application-s
 import {LOAD_USER_THREADS_ACTION, LoadUserThreadsAction} from "./store/actions";
 import * as _ from 'lodash';
 
-function storeReducer(state: ApplicationState,
+function storeReducer(state: ApplicationState = INITIAL_APPLICATION_STATE,
                       action: Action): ApplicationState {
   switch (action.type) {
     case LOAD_USER_THREADS_ACTION:
@@ -52,7 +52,7 @@ function handleLoadUserThreadsAction(state: ApplicationState,
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.provideStore(storeReducer, INITIAL_APPLICATION_STATE)
+    StoreModule.provideStore(storeReducer)
   ],
   providers: [ThreadsService],
   bootstrap: [AppComponent]
