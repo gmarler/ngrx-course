@@ -12,13 +12,13 @@ import { MessageListComponent } from './message-list/message-list.component';
 import {ThreadsService} from "./services/threads.service";
 import {Action, StoreModule} from "@ngrx/store";
 import {ApplicationState, INITIAL_APPLICATION_STATE} from "./store/application-state";
-import {LOAD_USER_THREADS_ACTION, LoadUserThreadsAction} from "./store/actions";
+import {USER_THREADS_LOADED_ACTION, UserThreadsLoadedAction} from "./store/actions";
 import * as _ from 'lodash';
 
 function storeReducer(state: ApplicationState = INITIAL_APPLICATION_STATE,
                       action: Action): ApplicationState {
   switch (action.type) {
-    case LOAD_USER_THREADS_ACTION:
+    case USER_THREADS_LOADED_ACTION:
       return handleLoadUserThreadsAction(state, action);
 
     default:
@@ -27,7 +27,7 @@ function storeReducer(state: ApplicationState = INITIAL_APPLICATION_STATE,
 }
 
 function handleLoadUserThreadsAction(state: ApplicationState,
-    action: LoadUserThreadsAction): ApplicationState {
+    action: UserThreadsLoadedAction): ApplicationState {
   const userData = action.payload;
   const newState: ApplicationState = Object.assign({}, state);
   newState.storeData = {
