@@ -14,6 +14,8 @@ import {Action, StoreModule} from "@ngrx/store";
 import {ApplicationState, INITIAL_APPLICATION_STATE} from "./store/application-state";
 import {USER_THREADS_LOADED_ACTION, UserThreadsLoadedAction} from "./store/actions";
 import * as _ from 'lodash';
+import {LoadThreadsEffectService} from "./store/effects/load-threads-effect.service";
+import {EffectsModule} from "@ngrx/effects";
 
 function storeReducer(state: ApplicationState = INITIAL_APPLICATION_STATE,
                       action: Action): ApplicationState {
@@ -52,7 +54,8 @@ function handleLoadUserThreadsAction(state: ApplicationState,
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.provideStore(storeReducer)
+    StoreModule.provideStore(storeReducer),
+    EffectsModule.run(LoadThreadsEffectService)
   ],
   providers: [ThreadsService],
   bootstrap: [AppComponent]
