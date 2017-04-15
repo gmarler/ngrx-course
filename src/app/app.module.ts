@@ -9,13 +9,13 @@ import { ThreadSectionComponent } from './thread-section/thread-section.componen
 import { MessageSectionComponent } from './message-section/message-section.component';
 import { ThreadListComponent } from './thread-list/thread-list.component';
 import { MessageListComponent } from './message-list/message-list.component';
-import {ThreadsService} from "./services/threads.service";
-import {Action, StoreModule} from "@ngrx/store";
-import {ApplicationState, INITIAL_APPLICATION_STATE} from "./store/application-state";
-import {USER_THREADS_LOADED_ACTION, UserThreadsLoadedAction} from "./store/actions";
+import {ThreadsService} from './services/threads.service';
+import {Action, StoreModule} from '@ngrx/store';
+import {ApplicationState, INITIAL_APPLICATION_STATE} from './store/application-state';
+import {USER_THREADS_LOADED_ACTION, UserThreadsLoadedAction} from './store/actions';
 import * as _ from 'lodash';
-import {LoadThreadsEffectService} from "./store/effects/load-threads-effect.service";
-import {EffectsModule} from "@ngrx/effects";
+import {LoadThreadsEffectService} from './store/effects/load-threads-effect.service';
+import {EffectsModule} from '@ngrx/effects';
 
 function storeReducer(state: ApplicationState = INITIAL_APPLICATION_STATE,
                       action: Action): ApplicationState {
