@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ThreadsService} from '../services/threads.service';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../store/application-state';
-import {LoadUserThreadsAction, UserThreadsLoadedAction} from '../store/actions';
+import {LoadUserThreadsAction, ThreadSelectedAction, UserThreadsLoadedAction} from '../store/actions';
 import {Observable} from 'rxjs/Observable';
 import {ThreadSummaryVM} from './thread-summary.vm';
 import {userNameSelector} from './userNameSelector';
@@ -31,6 +31,10 @@ export class ThreadSectionComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new LoadUserThreadsAction());
+  }
+
+  onThreadSelected(selectedThreadId: number) {
+    this.store.dispatch(new ThreadSelectedAction(selectedThreadId));
   }
 
 }

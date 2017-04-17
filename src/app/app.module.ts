@@ -10,36 +10,16 @@ import { MessageSectionComponent } from './message-section/message-section.compo
 import { ThreadListComponent } from './thread-list/thread-list.component';
 import { MessageListComponent } from './message-list/message-list.component';
 import {ThreadsService} from './services/threads.service';
-import {Action, StoreModule} from '@ngrx/store';
+import {Action, combineReducers, StoreModule} from '@ngrx/store';
 import {ApplicationState, INITIAL_APPLICATION_STATE} from './store/application-state';
 import {USER_THREADS_LOADED_ACTION, UserThreadsLoadedAction} from './store/actions';
 import * as _ from 'lodash';
 import {LoadThreadsEffectService} from './store/effects/load-threads-effect.service';
 import {EffectsModule} from '@ngrx/effects';
-
-function storeReducer(state: ApplicationState = INITIAL_APPLICATION_STATE,
-                      action: Action): ApplicationState {
-  switch (action.type) {
-    case USER_THREADS_LOADED_ACTION:
-      return handleLoadUserThreadsAction(state, action);
-
-    default:
-      return state;
-  }
-}
-
-function handleLoadUserThreadsAction(state: ApplicationState,
-    action: UserThreadsLoadedAction): ApplicationState {
-  const userData = action.payload;
-  const newState: ApplicationState = Object.assign({}, state);
-  newState.storeData = {
-    participants: _.keyBy(action.payload.participants, 'id'),
-    messages:     _.keyBy(action.payload.messages, 'id'),
-    threads:      _.keyBy(action.payload.threads, 'id')
-  };
-
-  return newState;
-}
+import {INITIAL_UI_STATE, UiState} from "./store/ui-state";
+import {StoreData} from "./store/store-data";
+import {uiState} from "./store/reducers/uiStateReducer";
+import {storeData} from "./store/reducers/uiStoreData";
 
 @NgModule({
   declarations: [
@@ -54,7 +34,7 @@ function handleLoadUserThreadsAction(state: ApplicationState,
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.provideStore(storeReducer),
+    StoreModule.provideStore(combineReducers({uiState,storeData}), INITIAL_APPLICATION_STATE),
     EffectsModule.run(LoadThreadsEffectService)
   ],
   providers: [ThreadsService],
