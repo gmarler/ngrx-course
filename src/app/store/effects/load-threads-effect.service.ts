@@ -1,26 +1,25 @@
 import { Injectable } from '@angular/core';
 import {ThreadsService} from '../../services/threads.service';
 import {Actions, Effect} from '@ngrx/effects';
-import {LOAD_USER_THREADS_ACTION, UserThreadsLoadedAction} from '../actions';
+import {LOAD_USER_THREADS_ACTION, LoadUserThreadsAction, SELECT_USER_ACTION, UserThreadsLoadedAction} from '../actions';
 import {Observable} from 'rxjs';
 import {Action} from '@ngrx/store';
-
-
-
 
 @Injectable()
 export class LoadThreadsEffectService {
 
   constructor(private actions$: Actions, private threadsService: ThreadsService) {
-
   }
 
-
   @Effect() userThreads$: Observable<Action> = this.actions$
-      .ofType(LOAD_USER_THREADS_ACTION)
-      .debug('action received')
-      .switchMap(() => this.threadsService.loadUserThreads())
-      .debug('data received via the HTTP request')
-      .map(allUserData => new UserThreadsLoadedAction(allUserData) );
+    .ofType(LOAD_USER_THREADS_ACTION)
+    .debug('action received')
+    .switchMap(() => this.threadsService.loadUserThreads())
+    .debug('data received via the HTTP request')
+    .map(allUserData => new UserThreadsLoadedAction(allUserData) );
 
+  @Effect() newUserSelected$: Observable<Action> = this.actions$
+    .ofType(SELECT_USER_ACTION)
+    .debug("New user selected")
+    .map(() => new LoadUserThreadsAction());
 }
