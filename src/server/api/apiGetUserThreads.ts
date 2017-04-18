@@ -1,4 +1,3 @@
-
 import {Application,Request,Response} from 'express';
 import {AllUserData} from "../../../shared/to/all-user-data";
 import {findDbThreadsPerUser} from "../persistence/findDbThreadsPerUser";
@@ -10,7 +9,7 @@ export function apiGetUserThreads(app:Application) {
 
     app.route('/api/threads').get((req: Request, res: Response) => {
 
-        const participantId = 1;
+        const participantId = parseInt(req.headers['userid']);
 
         const threadsPerUser = findDbThreadsPerUser(participantId);
 

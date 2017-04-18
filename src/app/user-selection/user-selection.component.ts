@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ApplicationState} from "../store/application-state";
-import {Store} from "@ngrx/store";
-import {SelectUserAction} from "../store/actions";
+import {ApplicationState} from '../store/application-state';
+import {Store} from '@ngrx/store';
+import {SelectUserAction} from '../store/actions';
 
 @Component({
   selector: 'user-selection',
@@ -18,5 +18,4 @@ export class UserSelectionComponent implements OnInit {
   onSelectUser(newUserId: number) {
     this.store.dispatch(new SelectUserAction(newUserId));
   }
-
 }

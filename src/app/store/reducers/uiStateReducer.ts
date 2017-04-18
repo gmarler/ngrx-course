@@ -23,6 +23,7 @@ export function uiState(state: UiState = INITIAL_UI_STATE, action: Action): UiSt
 
 function handleSelectUserAction(state: UiState, action: SelectUserAction) {
   const newUiState = Object.assign({}, state);
-  newUiState.userId = action.payload;
+  newUiState.userId          = action.payload;
+  newUiState.currentThreadId = undefined;
   return newUiState;
 }

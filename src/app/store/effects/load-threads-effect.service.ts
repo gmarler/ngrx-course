@@ -14,12 +14,12 @@ export class LoadThreadsEffectService {
   @Effect() userThreads$: Observable<Action> = this.actions$
     .ofType(LOAD_USER_THREADS_ACTION)
     .debug('action received')
-    .switchMap(() => this.threadsService.loadUserThreads())
+    .switchMap(action => this.threadsService.loadUserThreads(action.payload))
     .debug('data received via the HTTP request')
     .map(allUserData => new UserThreadsLoadedAction(allUserData) );
 
   @Effect() newUserSelected$: Observable<Action> = this.actions$
     .ofType(SELECT_USER_ACTION)
     .debug("New user selected")
-    .map(() => new LoadUserThreadsAction());
+    .map(action => new LoadUserThreadsAction(action.payload));
 }
