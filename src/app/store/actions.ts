@@ -30,6 +30,6 @@ export class ThreadSelectedAction implements Action {
 export class SelectUserAction implements Action {
   type = SELECT_USER_ACTION;
 
-  constructor(public payload: number) {
+  constructor(public payload?: number) {
   }
 }
