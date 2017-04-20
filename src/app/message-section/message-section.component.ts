@@ -5,23 +5,36 @@ import {Observable} from 'rxjs';
 import {MessageVM} from './message.vm';
 import {messageParticipantNamesSelector} from './messageParticipantNamesSelector';
 import {messagesSelector} from './messagesSelector';
+import {SendNewMessageAction} from "../store/actions";
+import {UiState} from "../store/ui-state";
 
 @Component({
-    selector: 'message-section',
-    templateUrl: './message-section.component.html',
-    styleUrls: ['./message-section.component.css']
+  selector: 'message-section',
+  templateUrl: './message-section.component.html',
+  styleUrls: ['./message-section.component.css']
 })
 export class MessageSectionComponent {
+  participantNames$: Observable<string>;
+  messages$:         Observable<MessageVM[]>;
+  uiState:           UiState;
 
-    participantNames$: Observable<string>;
-    messages$: Observable<MessageVM[]>;
+  constructor(private store: Store<ApplicationState>) {
+    this.participantNames$ = store.select(messageParticipantNamesSelector);
+    this.messages$ = store.select(messagesSelector);
+    // copy uiState to avoid possibly changing it.
+    store.subscribe(state => this.uiState = Object.assign({}, state.uiState));
+  }
 
-    constructor(private store: Store<ApplicationState>) {
-
-        this.participantNames$ = store.select(messageParticipantNamesSelector);
-
-        this.messages$ = store.select(messagesSelector);
-
-    }
-
+  onNewMessage(input: any) {
+    this.store.dispatch(
+      new SendNewMessageAction(
+        {text: input.value,
+          threadId: this.uiState.currentThreadId,
+          participantId: this.uiState.userId
+        }
+      )
+    );
+    // clear the input text after receiving new message
+    input.value = '';
+  }
 }
