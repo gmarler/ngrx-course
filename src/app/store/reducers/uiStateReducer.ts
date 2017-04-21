@@ -7,7 +7,7 @@ export function uiState(state: UiState = INITIAL_UI_STATE, action: Action): UiSt
 
   switch (action.type) {
 
-    case THREAD_SELECTED_ACTION:
+    case THREAD_SELECTED_ACTION:;
       const newState = Object.assign({}, state);
       newState.currentThreadId = action.payload;
       return newState;

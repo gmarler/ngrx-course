@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {AllUserData} from '../../../shared/to/all-user-data';
 import {Http, Headers} from '@angular/http';
+import {SendNewMessageActionPayload} from "../store/actions";
 
 @Injectable()
 export class ThreadsService {
@@ -15,5 +16,9 @@ export class ThreadsService {
 
     return this.http.get('/api/threads', {headers})
       .map(res => res.json());
+  }
+
+  saveNewMessage(payload: SendNewMessageActionPayload): Observable<any> {
+    return null;
   }
 }
