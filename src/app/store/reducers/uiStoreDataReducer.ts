@@ -1,11 +1,11 @@
-import {StoreData} from "../store-data";
-import {Action} from "@ngrx/store";
+import {StoreData} from '../store-data';
+import {Action} from '@ngrx/store';
 import {
   USER_THREADS_LOADED_ACTION, UserThreadsLoadedAction, SEND_NEW_MESSAGE_ACTION,
   SendNewMessageAction, NEW_MESSAGES_RECEIVED_ACTION, NewMessagesReceivedAction
-} from "../actions";
+} from '../actions';
 import * as _ from 'lodash';
-import {Message} from "../../../../shared/model/message";
+import {Message} from '../../../../shared/model/message';
 
 const uuid = require('uuid');
 

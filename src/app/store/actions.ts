@@ -35,8 +35,8 @@ export class SelectUserAction implements Action {
 }
 
 export interface SendNewMessageActionPayload {
-  text: string;
-  threadId: number;
+  text:          string;
+  threadId:      number;
   participantId: number;
 }
 
