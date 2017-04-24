@@ -71,4 +71,3 @@ function handleNewMessagesReceivedAction(state: StoreData, action: NewMessagesRe
   });
   return newStoreState;
 }
-
