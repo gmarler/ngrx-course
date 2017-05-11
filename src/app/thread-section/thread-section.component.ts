@@ -39,7 +39,8 @@ export class ThreadSectionComponent {
 
 
   onThreadSelected(selectedThreadId: number) {
-    this.store.dispatch(new ThreadSelectedAction({ selectedThreadId, currentUserId: this.uiState.userId}));
+    this.store.dispatch(
+      new ThreadSelectedAction({ selectedThreadId, currentUserId: this.uiState.userId}));
   }
 
 }
