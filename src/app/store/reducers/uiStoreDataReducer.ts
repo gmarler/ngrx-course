@@ -27,7 +27,7 @@ export function storeData(state: StoreData, action: Action): StoreData {
 
     case THREAD_SELECTED_ACTION:
 
-      return handleThreadSelectedAction(state, action);
+      return handleThreadSelectedAction(state, <any>action);
 
     default:
       return state;
