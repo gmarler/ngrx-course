@@ -27,6 +27,7 @@ import {RouterModule} from "@angular/router";
 import {routes} from "./routes";
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
+import {routerReducer, RouterStoreModule} from "@ngrx/router-store";
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     HttpModule,
       RouterModule.forRoot(routes, { useHash: true }),
-      StoreModule.provideStore(compose(storeFreeze, combineReducers)({uiState,storeData}), INITIAL_APPLICATION_STATE),
+      StoreModule.provideStore(compose(storeFreeze, combineReducers)({uiState,storeData,route: routerReducer}), INITIAL_APPLICATION_STATE),
+      RouterStoreModule.connectRouter(),
       EffectsModule.run(LoadThreadsEffectService),
       EffectsModule.run(WriteNewMessageEffectService),
       EffectsModule.run(ServerNotificationsEffectService),
