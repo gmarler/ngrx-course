@@ -9,32 +9,34 @@ import {SendNewMessageAction} from "../store/actions";
 import {UiState} from "../store/ui-state";
 
 @Component({
-    selector: 'message-section',
-    templateUrl: './message-section.component.html',
-    styleUrls: ['./message-section.component.css']
+  selector: 'message-section',
+  templateUrl: './message-section.component.html',
+  styleUrls: ['./message-section.component.css']
 })
 export class MessageSectionComponent {
 
-    participantNames$: Observable<string>;
-    messages$: Observable<MessageVM[]>;
+  participantNames$: Observable<string>;
+  messages$: Observable<MessageVM[]>;
 
-    uiState:UiState;
+  uiState: UiState;
 
-    constructor(private store: Store<ApplicationState>) {
+  constructor(private store: Store<ApplicationState>) {
 
-        this.participantNames$ = store.select(messageParticipantNamesSelector);
+    this.participantNames$ = store.select(messageParticipantNamesSelector);
 
-        this.messages$ = store.select(messagesSelector);
+    this.messages$ = store.select(messagesSelector);
 
-        store.subscribe(state => this.uiState = Object.assign({}, state.uiState) );
+    store.subscribe(state => this.uiState = Object.assign({}, state.uiState));
 
-    }
+  }
 
 
-    onNewMessage(input:any) {
-        this.store.dispatch(new SendNewMessageAction({text:input.value, threadId: this.uiState.currentThreadId,
-                                participantId: this.uiState.userId}));
-        input.value = '';
-    }
+  onNewMessage(input: any) {
+    this.store.dispatch(new SendNewMessageAction({
+      text: input.value, threadId: this.uiState.currentThreadId,
+      participantId: this.uiState.userId
+    }));
+    input.value = '';
+  }
 
 }

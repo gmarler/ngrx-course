@@ -18,7 +18,6 @@ import * as _ from 'lodash';
   styleUrls: ['./thread-section.component.css']
 })
 export class ThreadSectionComponent {
-
   userName$: Observable<string>;
   unreadMessagesCounter$: Observable<number>;
   threadSummaries$: Observable<ThreadSummaryVM[]>;
