@@ -2,30 +2,34 @@ import {ApplicationState} from "../store/application-state";
 import {MessageVM} from "./message.vm";
 import {Message} from "../../../shared/model/message";
 import * as _ from 'lodash';
+import {Participant} from "../../../shared/model/participant";
+import {createSelector} from "reselect";
 
 
-export function messagesSelector(state: ApplicationState): MessageVM[] {
+export const messagesSelector = createSelector(getParticipants,
+                                               getMessagesForCurrentThread,
+                                               mapMessagesToMessageVM);
 
-  const currentThreadId = state.uiState.currentThreadId;
+function getMessagesForCurrentThread(state: ApplicationState): Message[] {
+  const currentThread = state.storeData.threads[state.uiState.currentThreadId];
 
-  if (!currentThreadId) {
-    return [];
-  }
-
-  const messageIds = state.storeData.threads[state.uiState.currentThreadId].messageIds;
-
-  const messages = messageIds.map(messageId => state.storeData.messages[messageId]);
-
-  return messages.map(_.partial(mapMessageToMessageVM, state));
+  return currentThread.messageIds.map(messageId => state.storeData.messages[messageId]);
 }
 
+function getParticipants(state: ApplicationState) {
+  return state.storeData.participants;
+}
 
-function mapMessageToMessageVM(state: ApplicationState, message: Message): MessageVM {
+function mapMessagesToMessageVM(participants: {[key:number]: Participant}, messages: Message[]) {
+  return messages.map(message => mapMessageToMessageVM(participants, message));
+}
+
+function mapMessageToMessageVM(participants: {[key:number]: Participant}, message: Message): MessageVM {
   return {
     id: message.id,
     text: message.text,
     timestamp: message.timestamp,
-    participantName: state.storeData.participants[message.participantId].name
+    participantName: participants[message.participantId].name
   };
 }
 
