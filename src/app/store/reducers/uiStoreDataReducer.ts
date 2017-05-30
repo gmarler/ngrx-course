@@ -87,7 +87,7 @@ function handleNewMessagesReceivedAction(state: StoreData, action: NewMessagesRe
   newMessages.forEach(message => {
     newStoreState.messages[message.id] = message;
     newStoreState.threads[message.threadId] =
-      _.clone(state.threads[message.threadId]);
+      _.clone(newStoreState.threads[message.threadId]);
 
     const messageThread = newStoreState.threads[message.threadId];
 
@@ -95,8 +95,8 @@ function handleNewMessagesReceivedAction(state: StoreData, action: NewMessagesRe
     messageThread.messageIds.push(message.id);
 
     if (message.threadId !== currentThreadId) {
-      messageThread.participants[currentUserId] =
-        _.clone(newStoreState.threads[message.threadId].participants[currentUserId]);
+      messageThread.participants =
+        _.clone(newStoreState.threads[message.threadId].participants);
       messageThread.participants[currentUserId] += 1;
     }
   });
