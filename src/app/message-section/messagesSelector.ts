@@ -2,32 +2,42 @@ import {ApplicationState} from "../store/application-state";
 import {MessageVM} from "./message.vm";
 import {Message} from "../../../shared/model/message";
 import * as _ from 'lodash';
+import {createSelector} from "reselect";
+import {Participant} from "../../../shared/model/participant";
 
+export const messagesSelector = createSelector(getParticipants,
+                                               getMessagesForCurrentThread,
+                                               mapMessagesToMessageVM);
 
-export function messagesSelector(state: ApplicationState): MessageVM[] {
+function getMessagesForCurrentThread(state: ApplicationState): Message[] {
+  const currentThread = state.storeData.threads[state.uiState.currentThreadId];
+  return currentThread ?
+    currentThread.messageIds.map(messageId => state.storeData.messages[messageId]) :
+    [];
+}
 
-  const currentThreadId = state.uiState.currentThreadId;
+function getParticipants(state: ApplicationState) {
+  return state.storeData.participants;
+}
 
-  if (!currentThreadId) {
-    return [];
-  }
-
-  const messageIds = state.storeData.threads[state.uiState.currentThreadId].messageIds;
-
-  const messages = messageIds.map(messageId => state.storeData.messages[messageId]);
-
-  return messages.map(_.partial(mapMessageToMessageVM, state));
+function mapMessagesToMessageVM(participants: { [key: number]:Participant }, messages: Message[]) {
+  return messages.map( message => {
+    const participantName = participants[message.participantId].name;
+    return mapMessageToMessageVM(participantName, message);
+  });
 }
 
 
-function mapMessageToMessageVM(state: ApplicationState, message: Message): MessageVM {
+const mapMessageToMessageVM = _.memoize((participantName: string, message: Message): MessageVM => {
   return {
     id: message.id,
     text: message.text,
     timestamp: message.timestamp,
-    participantName: state.storeData.participants[message.participantId].name
+    participantName: participantName
   };
-}
+},
+  (participantName: string, message: Message) => message.id + participantName
+  );
 
 
 
