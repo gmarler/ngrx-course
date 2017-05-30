@@ -28,6 +28,7 @@ import {routes} from "./routes";
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import {routerReducer, RouterStoreModule} from "@ngrx/router-store";
+import { ChatMessageComponent } from './chat-message/chat-message.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {routerReducer, RouterStoreModule} from "@ngrx/router-store";
     MessageListComponent,
     MessagesComponent,
     AboutComponent,
-    HomeComponent
+    HomeComponent,
+    ChatMessageComponent
   ],
   imports: [
     BrowserModule,

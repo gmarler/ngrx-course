@@ -1,8 +1,6 @@
-
-
 export interface MessageVM {
-    id:number;
-    text:string;
-    participantName:string;
-    timestamp: number;
+  id: number;
+  text: string;
+  participantName: string;
+  timestamp: number;
 }
